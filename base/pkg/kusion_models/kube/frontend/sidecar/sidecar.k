@@ -1,8 +1,8 @@
-import sigma.base.pkg.kusion_models.app_configuration.container.probe as p
-import sigma.base.pkg.kusion_models.app_configuration.container.env as e
-import sigma.base.pkg.kusion_models.app_configuration.container.port as cp
-import sigma.base.pkg.kusion_models.app_configuration.container.lifecycle as lc
-import sigma.base.pkg.kusion_models.app_configuration.resource as res
+import base.pkg.kusion_models.kube.frontend.container.probe as p
+import base.pkg.kusion_models.kube.frontend.container.env as e
+import base.pkg.kusion_models.kube.frontend.container.port as cp
+import base.pkg.kusion_models.kube.frontend.container.lifecycle as lc
+import base.pkg.kusion_models.kube.frontend.resource as res
 
 schema Sidecar:
     """ Sidecar describes the sidecar container configuration that is expected to be run on the host.
@@ -33,8 +33,8 @@ schema Sidecar:
 
     Examples
     --------
-    import sigma.base.pkg.kusion_models.app_configuration.sidecar as s
-    import sigma.base.pkg.kusion_models.app_configuration.container.probe as p
+    import base.pkg.kusion_models.kube.frontend.sidecar as s
+    import base.pkg.kusion_models.kube.frontend.container.probe as p
 
     sidecar = s.Sidecar {
         name: "test"

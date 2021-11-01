@@ -1,5 +1,6 @@
 import base.pkg.kusion_kubernetes.api.apps.v1 as appsv1
 import base.pkg.kusion_models.kube.frontend.server
+import base.pkg.kusion_models.kube.mixins
 
 schema ServerBackend[inputData]:
     mixin [
@@ -7,19 +8,20 @@ schema ServerBackend[inputData]:
         # mixins.ConfigMapMixin
         # mixins.SecretMixin
         # mixins.ServiceMixin
-        mixins.NamespaceMixin
-        mixins.MetadataMixin
-        mixins.MainContainerMixin
-        mixins.SidecarContainersMixin
-        mixins.InitContainersMixin
+        mixins.NamespaceMixin,
+        mixins.MetadataMixin,
+        mixins.MainContainerMixin,
+        mixins.SidecarContainersMixin,
+        mixins.InitContainersMixin,
         # mixins.VolumesMixin
 
         # biz mixin
-        mixins.BizMixin
+        mixins.BizMixin,
         mixins.OutputTypeMixin
     ]
     
     data: server.Server = inputData
+    kubernetes: {str:[any]} = {}
 
     # Validations
     # TODO
@@ -31,14 +33,14 @@ schema ServerBackend[inputData]:
             replicas: data.replicas
             selector: {
                 matchLabels: {
-                    **__application_selector
-                    data.selector
+                    **__biz_selector
+                    **data.selector
                 }
             }
             template: {
                 metadata: {
                     labels: {
-                        **__application_labels
+                        **__biz_labels
                     }
                     **data.podMetadata
                 }
@@ -70,7 +72,7 @@ schema ServerBackend[inputData]:
         _workloadInstance = appsv1.Deployment {**_workload_attributes}
 
     # Put workload instance to backend result
-    _kubernetes: {str:} = {
+    _kubernetes: {str:[any]} = {
         if _workloadInstance:
-            "${type(_workloadKubernetes)}": _workloadInstance
+            "${typeof(_workloadInstance)}": [_workloadInstance]
     }

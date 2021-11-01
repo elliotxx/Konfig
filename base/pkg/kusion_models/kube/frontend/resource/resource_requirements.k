@@ -15,7 +15,7 @@ schema ResourceRequirements:
 
     Examples
     --------
-    import sigma.base.pkg.kusion_models.app_configuration.resource as res
+    import base.pkg.kusion_models.kube.frontend.resource as res
 
     res = res.ResourceRequirements {
         limits: {

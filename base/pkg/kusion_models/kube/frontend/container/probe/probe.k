@@ -25,7 +25,7 @@ schema Probe:
 
     Examples
     --------
-    import sigma.base.pkg.kusion_models.app_configuration.container.probe as p
+    import base.pkg.kusion_models.kube.frontend.container.probe as p
 
     probe = p.Probe {
         handler: p.Http {

@@ -1,4 +1,4 @@
-import sigma.base.pkg.kusion_models.app_configuration.container.probe as p
+import base.pkg.kusion_models.kube.frontend.container.probe as p
 
 schema Lifecycle:
     """ Lifecycle describes actions that the management system should take in response 
@@ -15,8 +15,8 @@ schema Lifecycle:
 
     Examples
     --------
-    import sigma.base.pkg.kusion_models.app_configuration.container.lifecycle as lc
-    import sigma.base.pkg.kusion_models.app_configuration.container.probe as p
+    import base.pkg.kusion_models.kube.frontend.container.lifecycle as lc
+    import base.pkg.kusion_models.kube.frontend.container.probe as p
 
     p = lc.Lifecycle {
         preStop: p.Exec {

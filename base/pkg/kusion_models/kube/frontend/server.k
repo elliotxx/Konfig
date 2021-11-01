@@ -1,6 +1,11 @@
 import base.pkg.kusion_kubernetes.api.core.v1 as kubev1
+import base.pkg.kusion_kubernetes.apimachinery.apis
 import base.pkg.kusion_models.kube.frontend.container
+import base.pkg.kusion_models.kube.frontend.volume
+import base.pkg.kusion_models.kube.frontend.resource as res
+import base.pkg.kusion_models.kube.frontend.sidecar as s
 import base.pkg.kusion_models.kube.templates.resource as res_tpl
+import base.pkg.kusion_models.kube.metadata
 
 schema Server:
     __settings__:{str:str} = {"output_type" = "IGNORE"}
@@ -49,8 +54,8 @@ schema Server:
     # 是否需要新建Namespace
     needNamespace?: bool = False
 
-    configMaps?: [v1.ConfigMap]
-    secrets?: [v1.Secret]
-    services?: [v1.Service]
-    ingresses?: [v1.Ingress]
-
+    # TODO:
+    # configMaps?: [v1.ConfigMap]
+    # secrets?: [v1.Secret]
+    # services?: [v1.Service]
+    # ingresses?: [v1.Ingress]

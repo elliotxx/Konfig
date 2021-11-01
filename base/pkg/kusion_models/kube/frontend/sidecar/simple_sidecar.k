@@ -12,7 +12,7 @@ schema SimpleSidecar:
 
     Examples
     --------
-    import sigma.base.pkg.kusion_models.app_configuration.sidecar as s
+    import base.pkg.kusion_models.kube.frontend.sidecar as s
 
     sidecar = s.SimpleSidecar {
         name: 'odp'

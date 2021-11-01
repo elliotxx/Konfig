@@ -9,9 +9,8 @@ schema relaxed MainContainerMixin:
         assert data.resource, "data.resource must be specified and can't be empty or None or Undefined"
 
         # Construct input of converter
-        _mainContainerDict: {str:} = {k:v for k,v in data.mainContainer}
         _mainContainerDict = {
-            **_mainContainerDict
+            **{k:v for k,v in data.mainContainer}
             env += __biz_envs
             name = data.mainContainer.name or "main"
             image = data.image

@@ -1,12 +1,12 @@
 schema ContainerFrontend2Kube[c]:
     # Kube variable
-    _kubeResource?: {str:str}
+    _kubeResource?: {str:}
     _kubeEnvList?: [{str:}]
     _kubeEnvFromList?: [{str:}]
     _kubePortList?: [{str:}]
     _kubeReadinessProbe?: {str:}
-    _kubeLivenessProbe: {str:}
-    _kubeStartupProbe: {str:}
+    _kubeLivenessProbe?: {str:}
+    _kubeStartupProbe?: {str:}
     _kubeLifecycle?: {str:}
 
     # Convert frontend resource to kube resource
@@ -54,7 +54,7 @@ schema ContainerFrontend2Kube[c]:
         ]
 
     # Convert frontend envFrom to kube envFrom
-    if c?.envFrom
+    if c?.envFrom:
         _kubeEnvFromList = [
             {
                 configMapRef: {
@@ -155,4 +155,4 @@ schema ContainerFrontend2Kube[c]:
         workingDir: c?.workingDir
         terminationMessagePath: c?.terminationMessagePath
         terminationMessagePolicy: c?.terminationMessagePolicy
-    ]
+    }

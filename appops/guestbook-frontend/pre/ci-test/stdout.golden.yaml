@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook-frontend
+  namespace: guestbook-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guestbook-frontend
+      cluster: demo-cluster-name
+      env: pre
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: guestbook-frontend
+        cluster: demo-cluster-name
+        env: pre
+        tier: frontend
+    spec:
+      containers:
+        - env:
+            - name: GET_HOSTS_FROM
+              value: dns
+            - name: app
+              value: guestbook-frontend
+            - name: env
+              value: pre
+            - name: cluster
+              value: demo-cluster-name
+          image: gcr.io/google-samples/gb-frontend:v4-pre
+          name: php-redis
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "2"
+              ephemeral-storage: 35Gi
+              memory: 4Gi
+            requests:
+              cpu: "2"
+              ephemeral-storage: 35Gi
+              memory: 4Gi
+      dnsPolicy: ClusterFirst

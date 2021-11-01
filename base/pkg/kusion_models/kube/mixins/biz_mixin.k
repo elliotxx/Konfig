@@ -1,3 +1,5 @@
+import base.pkg.kusion_models.kube.metadata
+
 schema relaxed BizMixin:
     __biz_labels: {str:str} = {
         "app": metadata.__META_APP_NAME
