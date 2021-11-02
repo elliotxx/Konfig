@@ -13,7 +13,7 @@ schema ServerBackend[inputData]:
         mixins.MainContainerMixin,
         mixins.SidecarContainersMixin,
         mixins.InitContainersMixin,
-        # mixins.VolumesMixin
+        mixins.VolumeMixin,
 
         # biz mixin
         mixins.ApplicationMixin,
@@ -60,6 +60,12 @@ schema ServerBackend[inputData]:
                     runtimeClassName: data.containerRuntime
                     dnsConfig: data.dnsConfig
                     dnsPolicy: data.dnsPolicy
+                    volumes: [
+                        {
+                            name: _volume.name
+                            "${_volume.volumeSource._type}": {} if _volume.volumeSource._type == "emptyDir" and _volume.volumeSource.medium == "" else _volume.volumeSource
+                        } for _volume in data.volumes if _volume.volumeSource
+                    ] if data.volumes else Undefined
                 }
             }
             progressDeadlineSeconds: data.progressDeadlineSeconds
