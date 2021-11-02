@@ -7,27 +7,31 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guestbook-frontend
-      cluster: demo-cluster-name
-      env: pre
+      app.kubernetes.io/env: pre
+      app.kubernetes.io/instance: guestbook-frontend-pre
+      app.kubernetes.io/name: guestbook-frontend
+      cluster.x-k8s.io/cluster-name: demo-cluster-name
       tier: frontend
   template:
     metadata:
       labels:
-        app: guestbook-frontend
-        cluster: demo-cluster-name
-        env: pre
+        app.kubernetes.io/env: pre
+        app.kubernetes.io/instance: guestbook-frontend-pre
+        app.kubernetes.io/name: guestbook-frontend
+        cluster.x-k8s.io/cluster-name: demo-cluster-name
         tier: frontend
     spec:
       containers:
         - env:
             - name: GET_HOSTS_FROM
               value: dns
-            - name: app
+            - name: APP_NAME
               value: guestbook-frontend
-            - name: env
+            - name: ENVIRONMENT
               value: pre
-            - name: cluster
+            - name: INSTANCE
+              value: guestbook-frontend-pre
+            - name: CLUSTER
               value: demo-cluster-name
           image: gcr.io/google-samples/gb-frontend:v4-pre
           name: php-redis

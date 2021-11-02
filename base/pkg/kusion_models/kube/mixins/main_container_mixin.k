@@ -11,7 +11,7 @@ schema relaxed MainContainerMixin:
         # Construct input of converter
         _mainContainerDict = {
             **{k:v for k,v in data.mainContainer}
-            env += __biz_envs
+            env += __application_envs
             name = data.mainContainer.name or "main"
             image = data.image
             resource = data.resource

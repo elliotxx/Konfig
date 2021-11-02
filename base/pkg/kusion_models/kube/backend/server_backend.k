@@ -16,7 +16,7 @@ schema ServerBackend[inputData]:
         # mixins.VolumesMixin
 
         # biz mixin
-        mixins.BizMixin,
+        mixins.ApplicationMixin,
         mixins.OutputTypeMixin
     ]
     
@@ -33,14 +33,14 @@ schema ServerBackend[inputData]:
             replicas: data.replicas
             selector: {
                 matchLabels: {
-                    **__biz_selector
+                    **__application_selector
                     **data.selector
                 }
             }
             template: {
                 metadata: {
                     labels: {
-                        **__biz_labels
+                        **__application_labels
                     }
                     **data.podMetadata
                 }
