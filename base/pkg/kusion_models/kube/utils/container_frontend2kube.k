@@ -79,7 +79,7 @@ schema ContainerFrontend2Kube[c]:
         ]
 
     # Convert frontend probe to kube probe
-    if c?.readinessProbe or c?.livenessProve or c?.startupProbe:
+    if c?.readinessProbe or c?.livenessProbe or c?.startupProbe:
         _iacProbes = [
             c?.readinessProbe
             c?.livenessProbe
@@ -142,7 +142,7 @@ schema ContainerFrontend2Kube[c]:
     result: {str:} = {
         name: c?.name
         image: c?.image
-        imagePullPolicy: c?.imagePullPolicy
+        imagePullPolicy: c?.imagePullPolicy if "imagePullPolicy" in c else Undefined
         resources: _kubeResource
         env: _kubeEnvList
         envFrom: _kubeEnvFromList
@@ -155,6 +155,6 @@ schema ContainerFrontend2Kube[c]:
         startupProbe: _kubeStartupProbe
         lifecycle: _kubeLifecycle
         workingDir: c?.workingDir
-        terminationMessagePath: c?.terminationMessagePath
-        terminationMessagePolicy: c?.terminationMessagePolicy
+        terminationMessagePath: c?.terminationMessagePath if "terminationMessagePath" in c else Undefined
+        terminationMessagePolicy: c?.terminationMessagePolicy if "terminationMessagePolicy" in c else Undefined
     }

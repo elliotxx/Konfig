@@ -4,18 +4,18 @@ schema relaxed VolumeMixin:
     assert data, "data must be specified and can't be empty or None or Undefined"
 
     if data.volumes:
-        __mainContainer |= {
+        _mainContainer |= {
             volumeMounts = sum([[
                 {
                     name: _volume.name
                     mountPath: _mount.path
                     subPath: _mount.subPath
                     readOnly: _mount.readOnly or Undefined
-                } for _mount in _volume.mounts if _mount.container == __mainContainer.name or _mount.container == "*" 
+                } for _mount in _volume.mounts if _mount.container == _mainContainer.name or _mount.container == "*" 
             ] for _volume in data.volumes ], [])
-        } if __mainContainer else Undefined
+        } if _mainContainer else Undefined
 
-        __sidecarContainers = [
+        _sidecarContainers = [
             _container | {
                 volumeMounts = sum([[
                     {
@@ -25,10 +25,10 @@ schema relaxed VolumeMixin:
                         readOnly: _mount.readOnly or Undefined
                     } for _mount in _volume.mounts if _mount.container == _container.name or _mount.container == "*"
                 ] for _volume in data.volumes ], [])
-            } for _container in __sidecarContainers
-        ] if __sidecarContainers else Undefined
+            } for _container in _sidecarContainers
+        ] if _sidecarContainers else Undefined
 
-        __initContainers = [
+        _initContainers = [
             _container | {
                 volumeMounts = sum([[
                     {
@@ -38,5 +38,5 @@ schema relaxed VolumeMixin:
                         readOnly: _mount.readOnly or Undefined
                     } for _mount in _volume.mounts if _mount.container == _container.name or _mount.container == "*"
                 ] for _volume in data.volumes ], [])
-            } for _container in __initContainers
-        ] if __initContainers else Undefined
+            } for _container in _initContainers
+        ] if _initContainers else Undefined

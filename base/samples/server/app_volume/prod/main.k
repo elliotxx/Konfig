@@ -1,5 +1,6 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.templates.resource as res_tpl
+import base.pkg.kusion_models.kube.frontend.volume as v
 
 # The application configuration in stack will overwrite 
 # the configuration with the same attribute in base.
