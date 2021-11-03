@@ -1,6 +1,9 @@
 import base.pkg.kusion_kubernetes.api.apps.v1 as appsv1
+import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_models.kube.frontend.server
 import base.pkg.kusion_models.kube.mixins
+import base.pkg.kusion_models.kube.metadata
+import base.pkg.kusion_models.kube.utils
 
 schema ServerBackend[inputData]:
     mixin [
@@ -10,9 +13,6 @@ schema ServerBackend[inputData]:
         # mixins.ServiceMixin
         mixins.NamespaceMixin,
         mixins.MetadataMixin,
-        mixins.MainContainerMixin,
-        mixins.SidecarContainersMixin,
-        mixins.InitContainersMixin,
         mixins.VolumeMixin,
 
         # biz mixin
@@ -26,10 +26,35 @@ schema ServerBackend[inputData]:
     # Validations
     # TODO
 
+    # Varaible
+    _workload_name: str = "{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME).lower()
+
+    # Logic
+    if data.mainContainer:
+        assert data.image, "data.image must be specified and can't be empty or None or Undefined"
+        assert data.resource, "data.resource must be specified and can't be empty or None or Undefined"
+        # Construct input of converter
+        _mainContainerDict = {
+            **{k:v for k,v in data.mainContainer}
+            env += __application_envs
+            name = data.mainContainer.name or "main"
+            image = data.image
+            resource = data.resource
+        }
+        _mainContainer = utils.ContainerFrontend2Kube(_mainContainerDict).result
+
+    if data.sidecarContainers:
+        _sidecarContainers = [utils.ContainerFrontend2Kube(_s).result for _s in data.sidecarContainers]
+
+    if data.initContainers:
+        _initContainers = [utils.ContainerFrontend2Kube(_s).result for _s in data.initContainers]
+
     # Construct workload attributes
-    print(__mainContainer)
     _workload_attributes: {str:} = {
-        metadata: __metadata
+        metadata: {
+            **__metadata
+            name = _workload_name
+        }
         spec: {
             replicas: data.replicas
             selector: {
@@ -48,10 +73,10 @@ schema ServerBackend[inputData]:
                 }
                 spec: {
                     containers: [
-                        __mainContainer
-                        *__sidecarContainers
+                        _mainContainer
+                        *_sidecarContainers
                     ]
-                    initContainers: __initContainers
+                    initContainers: _initContainers
                     serviceAccount: data.serviceAccountName
                     hostNetwork: data.hostNetwork
                     restartPolicy: data.restartPolicy
