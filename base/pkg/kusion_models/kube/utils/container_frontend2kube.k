@@ -1,3 +1,5 @@
+import base.pkg.kusion_kubernetes.api.core.v1 as kubev1
+
 schema ContainerFrontend2Kube[c]:
     # Kube variable
     _kubeResource?: {str:}

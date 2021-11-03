@@ -4,6 +4,8 @@ import base.pkg.kusion_models.kube.utils
 schema relaxed MainContainerMixin:
     assert data, "data must be specified and can't be empty or None or Undefined"
 
+    __mainContainer?: {str:}
+
     if data.mainContainer:
         assert data.image, "data.image must be specified and can't be empty or None or Undefined"
         assert data.resource, "data.resource must be specified and can't be empty or None or Undefined"

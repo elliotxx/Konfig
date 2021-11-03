@@ -27,13 +27,15 @@ schema ServerBackend[inputData]:
     # TODO
 
     # Construct workload attributes
+    print(__mainContainer)
     _workload_attributes: {str:} = {
         metadata: __metadata
         spec: {
             replicas: data.replicas
             selector: {
                 matchLabels: {
-                    **__application_selector
+                    if data.autoSelector:
+                        **__application_selector
                     **data.selector
                 }
             }
@@ -47,7 +49,7 @@ schema ServerBackend[inputData]:
                 spec: {
                     containers: [
                         __mainContainer
-                        __sidecarContainers
+                        *__sidecarContainers
                     ]
                     initContainers: __initContainers
                     serviceAccount: data.serviceAccountName
