@@ -10,7 +10,7 @@ schema ServerBackend[inputData]:
         # Resource builder mixin
         mixins.NamespaceMixin,
         mixins.ConfigMapMixin,
-        # mixins.SecretMixin,
+        mixins.SecretMixin,
         # mixins.ServiceMixin,
 
         # Workload builder mixin
