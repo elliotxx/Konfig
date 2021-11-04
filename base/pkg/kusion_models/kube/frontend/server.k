@@ -35,8 +35,8 @@ schema Server:
     initContainers?: [s.Sidecar]
 
     # Workload configuration
-    name: str = metadata.__META_APP_NAME
-    namespace: str = name
+    name?: str
+    namespace?: str
     labels?: {str:str}
     annotations?: {str:str}
     selector?: {str:str}

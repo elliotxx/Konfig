@@ -22,7 +22,7 @@ schema relaxed NamespaceMixin:
     if data.needNamespace:
         __kubeNamespace = v1.Namespace {
             metadata: {
-                name: metadata.__META_STACK_NAME or metadata.__META_GLOBAL_APP_NAME
+                name: metadata.__META_APP_NAME
             }
         }
 

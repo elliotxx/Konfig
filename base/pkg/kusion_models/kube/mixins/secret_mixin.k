@@ -7,7 +7,7 @@ schema relaxed SecretMixin:
         __kubeSecrets = [ v1.Secret {
             metadata: {
                 **utils.MetadataBuilder(_s).result
-                name = "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
+                name = _s?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
             }
             data: _s?.data
             stringData: _s?.stringData

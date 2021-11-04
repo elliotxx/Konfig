@@ -98,10 +98,9 @@ schema Service(common.Metadata):
     externalName?: str
     externalTrafficPolicy?: str
     healthCheckNodePort?: int
-    ipFamily?: str
+    ipFamilyPolicy?: str
     loadBalancerIP?: str
     loadBalancerSourceRanges?: [str]
     publishNotReadyAddresses?: bool
     sessionAffinity?: str
     sessionAffinityConfig?: {str:}
-    topologyKeys?: [str]

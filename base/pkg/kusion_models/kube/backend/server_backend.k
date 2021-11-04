@@ -11,7 +11,7 @@ schema ServerBackend[inputData]:
         mixins.NamespaceMixin,
         mixins.ConfigMapMixin,
         mixins.SecretMixin,
-        # mixins.ServiceMixin,
+        mixins.ServiceMixin,
 
         # Workload builder mixin
         mixins.VolumeMixin,
@@ -54,7 +54,7 @@ schema ServerBackend[inputData]:
     _workload_attributes: {str:} = {
         metadata: {
             **utils.MetadataBuilder(data).result
-            name = _workload_name
+            name = data?.name or _workload_name
         }
         spec: {
             replicas: data.replicas

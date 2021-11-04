@@ -1,0 +1,7 @@
+kcl_cli_configs:
+  file:
+    - ../../../../../base/pkg/kusion_models/kube/metadata/metadata.k
+    - ../base/base.k
+    - main.k
+    - ../../../../../base/pkg/kusion_models/kube/render/render.k
+  disable_none: false
