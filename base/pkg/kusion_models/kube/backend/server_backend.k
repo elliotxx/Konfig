@@ -7,15 +7,16 @@ import base.pkg.kusion_models.kube.utils
 
 schema ServerBackend[inputData]:
     mixin [
-        # resource mixin
-        # mixins.ConfigMapMixin
-        # mixins.SecretMixin
-        # mixins.ServiceMixin
+        # Resource builder mixin
         mixins.NamespaceMixin,
-        mixins.MetadataMixin,
+        mixins.ConfigMapMixin,
+        # mixins.SecretMixin,
+        # mixins.ServiceMixin,
+
+        # Workload builder mixin
         mixins.VolumeMixin,
 
-        # biz mixin
+        # Biz mixin
         mixins.ApplicationMixin,
         mixins.OutputTypeMixin
     ]
@@ -52,7 +53,7 @@ schema ServerBackend[inputData]:
     # Construct workload attributes
     _workload_attributes: {str:} = {
         metadata: {
-            **__metadata
+            **utils.MetadataBuilder(data).result
             name = _workload_name
         }
         spec: {

@@ -1,5 +1,9 @@
 import base.pkg.kusion_kubernetes.api.core.v1 as kubev1
 import base.pkg.kusion_kubernetes.apimachinery.apis
+import base.pkg.kusion_models.kube.frontend.configmap
+import base.pkg.kusion_models.kube.frontend.secret
+import base.pkg.kusion_models.kube.frontend.service
+import base.pkg.kusion_models.kube.frontend.ingress
 import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.volume
 import base.pkg.kusion_models.kube.frontend.resource as res
@@ -55,9 +59,7 @@ schema Server:
     needNamespace?: bool = False
     autoSelector?: bool = True
 
-
-    # TODO:
-    # configMaps?: [v1.ConfigMap]
-    # secrets?: [v1.Secret]
-    # services?: [v1.Service]
-    # ingresses?: [v1.Ingress]
+    configMaps?: [configmap.ConfigMap]
+    secrets?: [secret.Secret]
+    services?: [service.Service]
+    ingresses?: [ingress.Ingress]
