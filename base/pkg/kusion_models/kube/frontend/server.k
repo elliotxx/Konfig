@@ -15,7 +15,7 @@ schema Server:
     __settings__:{str:str} = {"output_type" = "IGNORE"}
 
     # Application workload type, default to 'Deployment'
-    workloadType: "Deployment" = "Deployment"
+    workloadType: "Deployment" | "StatefulSet" = "Deployment"
 
     # Application replicas
     replicas: int = option("replicas") or 1

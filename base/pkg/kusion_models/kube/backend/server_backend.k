@@ -96,9 +96,26 @@ schema ServerBackend[inputData]:
     # Generate workload instance
     if data.workloadType == "Deployment":
         _workloadInstance = appsv1.Deployment {**_workload_attributes}
+    elif data.workloadType == "StatefulSet":
+        # Generate default headless service of StatefulSet
+        _headlessServiceInstance = corev1.Service {
+            metadata: _workload_attributes.metadata
+            spec: {
+                clusterIP: "None"
+                selector: _workload_attributes.spec.selector.matchLabels
+            }
+        }
+        _workloadInstance = appsv1.StatefulSet {
+            **_workload_attributes
+            spec: {
+                serviceName: _headlessServiceInstance.metadata.name
+            }
+        }
 
     # Put workload instance to backend result
     _kubernetes: {str:[any]} = {
         if _workloadInstance:
             "${typeof(_workloadInstance)}": [_workloadInstance]
+        if _headlessServiceInstance:
+            "${typeof(_headlessServiceInstance)}": [_headlessServiceInstance]
     }
