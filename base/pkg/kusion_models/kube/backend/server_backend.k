@@ -80,13 +80,6 @@ schema ServerBackend[inputData]:
                     ]
                     initContainers: _initContainers
                     serviceAccount: data.serviceAccountName
-                    hostNetwork: data.hostNetwork
-                    restartPolicy: data.restartPolicy
-                    terminationGracePeriodSeconds: data.terminationGracePeriodSeconds
-                    readinessGates: data.readinessGates
-                    securityContext: data.securityContext
-                    shareProcessNamespace: data.shareProcessNamespace
-                    runtimeClassName: data.containerRuntime
                     dnsConfig: data.dnsConfig
                     dnsPolicy: data.dnsPolicy
                     volumes: [
@@ -97,8 +90,6 @@ schema ServerBackend[inputData]:
                     ] if data.volumes else Undefined
                 }
             }
-            progressDeadlineSeconds: data.progressDeadlineSeconds
-            minReadySeconds: data.minReadySeconds
         }
     }
 

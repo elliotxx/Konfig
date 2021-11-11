@@ -45,15 +45,6 @@ schema Server:
     dnsConfig?: kubev1.PodDNSConfig
     dnsPolicy?: "ClusterFirstWithHostNet" | "ClusterFirst" | "Default" | "None" = "ClusterFirst"
     serviceAccountName?: str
-    hostNetwork?: bool
-    restartPolicy?: str
-    terminationGracePeriodSeconds?: int
-    progressDeadlineSeconds?: int
-    minReadySeconds?: int
-    readinessGates?: [kubev1.PodReadinessGate]
-    securityContext?: {str:}
-    shareProcessNamespace?: bool
-    containerRuntime?: str
 
     # Other configurations
     needNamespace?: bool = False
