@@ -40,6 +40,9 @@ spec:
               cpu: "2"
               ephemeral-storage: 35Gi
               memory: 4Gi
+          volumeMounts:
+            - mountPath: /home/admin/logs
+              name: log-volume
       dnsPolicy: ClusterFirst
       volumes:
         - emptyDir: {}

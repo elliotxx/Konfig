@@ -55,7 +55,7 @@ schema ServerBackend[inputData]:
     _workload_attributes: {str:} = {
         metadata: {
             **utils.MetadataBuilder(data).result
-            name = data?.name or _workload_name
+            name = _workload_name
         }
         spec: {
             replicas: data.replicas

@@ -1,33 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guestbook-frontend
+  name: guestbook-frontendtest
   namespace: guestbook-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guestbook-frontend
-      cluster: demo-cluster-name
-      env: test
+      app.kubernetes.io/env: test
+      app.kubernetes.io/instance: guestbook-frontend-test
+      app.kubernetes.io/name: guestbook-frontend
+      cluster.x-k8s.io/cluster-name: demo-cluster-name
       tier: frontend
   template:
     metadata:
       labels:
-        app: guestbook-frontend
-        cluster: demo-cluster-name
-        env: test
+        app.kubernetes.io/env: test
+        app.kubernetes.io/instance: guestbook-frontend-test
+        app.kubernetes.io/name: guestbook-frontend
+        cluster.x-k8s.io/cluster-name: demo-cluster-name
         tier: frontend
     spec:
       containers:
         - env:
             - name: GET_HOSTS_FROM
               value: dns
-            - name: app
+            - name: APP_NAME
               value: guestbook-frontend
-            - name: env
+            - name: ENVIRONMENT
               value: test
-            - name: cluster
+            - name: INSTANCE
+              value: guestbook-frontend-test
+            - name: CLUSTER
               value: demo-cluster-name
           image: gcr.io/google-samples/gb-frontend:v4-test
           name: php-redis
