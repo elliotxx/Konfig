@@ -42,6 +42,11 @@ spec:
               memory: 4Gi
       dnsPolicy: ClusterFirst
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

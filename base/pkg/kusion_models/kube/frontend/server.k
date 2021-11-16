@@ -45,7 +45,7 @@ schema Server:
     serviceAccountName?: str
 
     # Other configurations
-    needNamespace?: bool = False
+    needNamespace?: bool = True
     autoSelector?: bool = True
 
     configMaps?: [configmap.ConfigMap]

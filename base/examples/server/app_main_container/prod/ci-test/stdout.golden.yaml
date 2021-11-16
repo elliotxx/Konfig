@@ -86,3 +86,8 @@ spec:
             successThreshold: 2
             timeoutSeconds: 10
       dnsPolicy: ClusterFirst
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

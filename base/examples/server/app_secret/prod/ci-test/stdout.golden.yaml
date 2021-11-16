@@ -43,6 +43,11 @@ spec:
       dnsPolicy: ClusterFirst
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp
+---
+apiVersion: v1
 data:
   ca.conf: ZG9tYWluSWQ9CmdhdGV3YXk9aHR0cDovL2xhYi5nYXRld2F5LmdhbGF4eS5teWJhbmsuY2
 kind: Secret

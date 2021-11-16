@@ -62,3 +62,8 @@ spec:
       volumes:
         - emptyDir: {}
           name: log-storage
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

@@ -45,3 +45,8 @@ spec:
               ephemeral-storage: 35Gi
               memory: 4Gi
       dnsPolicy: ClusterFirst
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

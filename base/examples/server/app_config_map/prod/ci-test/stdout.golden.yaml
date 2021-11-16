@@ -43,6 +43,11 @@ spec:
       dnsPolicy: ClusterFirst
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp
+---
+apiVersion: v1
 data:
   app.name: sampleapp
 kind: ConfigMap
