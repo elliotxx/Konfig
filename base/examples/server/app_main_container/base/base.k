@@ -5,6 +5,6 @@ import base.pkg.kusion_models.kube.frontend.volume as v
 
 # Application Configuration
 appConfiguration = frontend.Server {
-    resource: res_tpl.medium
+    resource: res_tpl.tiny
     image: "gcr.io/google-samples/gb-frontend:v4"
 }

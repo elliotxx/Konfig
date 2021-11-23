@@ -8,6 +8,6 @@ _main = container.Main {}
 # Application Configuration
 appConfiguration = frontend.Server {
     mainContainer: _main
-    resource: res_tpl.medium
+    resource: res_tpl.tiny
     image: "gcr.io/google-samples/gb-frontend:v4"
 }
