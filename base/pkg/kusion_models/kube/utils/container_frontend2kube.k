@@ -13,27 +13,7 @@ schema ContainerFrontend2Kube[c]:
 
     # Convert frontend resource to kube resource
     if c?.resource:
-        _sidecarResourceLimitsOrRequests = {
-            cpu: c.resource.cpu
-            memory: c.resource.memory
-            "ephemeral-storage": c.resource.disk
-        } if typeof(c.resource) == "Resource" else Undefined
-
-        _kubeResource = {
-            limits: {
-                cpu: c.resource?.limits?.cpu
-                memory: c.resource?.limits?.memory
-                "ephemeral-storage": c.resource?.limits?.disk
-            }
-            requests: {
-                cpu: c.resource?.requests?.cpu
-                memory: c.resource?.requests?.memory
-                "ephemeral-storage": c.resource?.requests?.disk
-            }
-        } if typeof(c.resource) == "ResourceRequirements" else {
-            limits: _sidecarResourceLimitsOrRequests
-            requests: _sidecarResourceLimitsOrRequests
-        }
+        _kubeResource = Str2ResourceRequirements(c.resource).result
 
     # Convert frontend env to kube env
     if c?.env:

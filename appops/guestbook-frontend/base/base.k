@@ -29,5 +29,7 @@ appConfiguration = frontend.Server {
             "tier": "frontend"
         }
     }
-    resource: res_tpl.medium
+    schedulingStrategy: {
+        resource = res_tpl.medium
+    }
 }

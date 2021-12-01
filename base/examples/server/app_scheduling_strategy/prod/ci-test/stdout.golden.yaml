@@ -33,34 +33,13 @@ spec:
           name: main
           resources:
             limits:
-              cpu: 100m
-              ephemeral-storage: 1Gi
-              memory: 100Mi
-            requests:
-              cpu: 100m
-              ephemeral-storage: 1Gi
-              memory: 100Mi
-        - env:
-            - name: FILES_TO_COLLECT
-              value: /mnt/log/synthetic-count.log /mnt/log/synthetic-dates.log
-          image: gcr.io/google_containers/fluentd-sidecar-es:1.0
-          name: sidecar-log-collector
-          resources:
-            limits:
-              cpu: "1"
-              ephemeral-storage: 20Gi
+              cpu: "2"
+              ephemeral-storage: 30Gi
               memory: 2Gi
             requests:
               cpu: "1"
-              ephemeral-storage: 20Gi
-              memory: 2Gi
-          volumeMounts:
-            - mountPath: /mnt/log
-              name: log-storage
-              readOnly: true
-      volumes:
-        - emptyDir: {}
-          name: log-storage
+              ephemeral-storage: 30Gi
+              memory: 1Gi
 ---
 apiVersion: v1
 kind: Namespace

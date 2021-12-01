@@ -32,9 +32,7 @@ schema Resource:
     cpu?:           str = "1"
     memory?:        str = "1024Mi"
     disk?:          str = "10Gi"
-    epchygontee?:   str
     check:
         regex.match(cpu, r"^([+-]?[0-9.]+)([m]*[-+]?[0-9]*)$") if cpu, "cpu must match specific regular expression"
         regex.match(memory, r"^([0-9]{0,63})(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)$") if memory, "memory must match specific regular expression"
         regex.match(disk, r"^([1-9][0-9]{0,63})(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)$") if disk, "disk must match specific regular expression"
-        regex.match(epchygontee, r"^([0-9][0-9]*)$") if epchygontee, "epchygontee must match specific regular expression"

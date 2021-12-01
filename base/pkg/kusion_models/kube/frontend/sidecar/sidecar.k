@@ -30,6 +30,9 @@ schema Sidecar:
     startupProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to indicates that the Pod has successfully initialized.
+    resource: str, default is "1<cpu<2,1Gi<memory<2Gi,disk=20Gi", required.
+        A Pod-level attribute.
+        Sidecar container resource. 
 
     Examples
     --------
@@ -53,7 +56,7 @@ schema Sidecar:
     env?:            [e.Env]
     envFrom?:        [e.EnvFromSource]
     ports?:          [cp.ContainerPort]
-    resource:        res.Resource | res.ResourceRequirements
+    resource:        str
     image:           str
 
     readinessProbe?: p.Probe

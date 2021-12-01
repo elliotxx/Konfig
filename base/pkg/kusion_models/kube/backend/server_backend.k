@@ -15,6 +15,7 @@ schema ServerBackend[inputData]:
 
         # Workload builder mixin
         mixins.VolumeMixin,
+        mixins.SchedulingStrategyMixin,
 
         # Biz mixin
         mixins.ApplicationMixin,
@@ -33,14 +34,13 @@ schema ServerBackend[inputData]:
     # Logic
     if data.mainContainer:
         assert data.image, "data.image must be specified and can't be empty or None or Undefined"
-        assert data.resource, "data.resource must be specified and can't be empty or None or Undefined"
         # Construct input of converter
         _mainContainerDict = {
             **{k:v for k,v in data.mainContainer}
             env += __application_envs
             name = data.mainContainer.name or "main"
             image = data.image
-            resource = data.resource
+            resource = data?.schedulingStrategy?.resource
         }
         _mainContainer = utils.ContainerFrontend2Kube(_mainContainerDict).result
 

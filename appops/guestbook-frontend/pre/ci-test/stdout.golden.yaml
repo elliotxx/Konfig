@@ -47,7 +47,6 @@ spec:
               cpu: "2"
               ephemeral-storage: 35Gi
               memory: 4Gi
-      dnsPolicy: ClusterFirst
 ---
 apiVersion: v1
 kind: Namespace

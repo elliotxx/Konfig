@@ -8,7 +8,7 @@ import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.volume
 import base.pkg.kusion_models.kube.frontend.resource as res
 import base.pkg.kusion_models.kube.frontend.sidecar as s
-import base.pkg.kusion_models.kube.templates.resource as res_tpl
+import base.pkg.kusion_models.kube.frontend.strategy
 import base.pkg.kusion_models.kube.metadata
 
 schema Server:
@@ -23,9 +23,7 @@ schema Server:
     # Main container image
     image: str = option("image")
     # Main container resource
-    resource: res.Resource | res.ResourceRequirements = res_tpl.small
-    # Release strategy
-    # releaseStrategy: str = "Percent"
+    schedulingStrategy: strategy.SchedulingStrategy = strategy.SchedulingStrategy{}
 
     # Main container configuration
     mainContainer: container.Main
