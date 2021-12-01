@@ -40,15 +40,10 @@ schema Server:
     selector?: {str:str}
     podMetadata?: apis.ObjectMeta
     volumes?: [volume.Volume]
-    dnsConfig?: kubev1.PodDNSConfig
-    dnsPolicy?: "ClusterFirstWithHostNet" | "ClusterFirst" | "Default" | "None" = "ClusterFirst"
-    serviceAccountName?: str
 
     # Other configurations
     needNamespace?: bool = True
-    autoSelector?: bool = True
 
     configMaps?: [configmap.ConfigMap]
     secrets?: [secret.Secret]
     services?: [service.Service]
-    ingresses?: [ingress.Ingress]

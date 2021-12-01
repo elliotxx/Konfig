@@ -43,7 +43,6 @@ spec:
           volumeMounts:
             - mountPath: /home/admin/logs
               name: log-volume
-      dnsPolicy: ClusterFirst
       volumes:
         - emptyDir: {}
           name: log-volume

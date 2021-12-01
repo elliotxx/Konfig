@@ -12,7 +12,6 @@ schema ServerBackend[inputData]:
         mixins.ConfigMapMixin,
         mixins.SecretMixin,
         mixins.ServiceMixin,
-        mixins.IngressMixin,
 
         # Workload builder mixin
         mixins.VolumeMixin,
@@ -61,8 +60,7 @@ schema ServerBackend[inputData]:
             replicas: data.replicas
             selector: {
                 matchLabels: {
-                    if data.autoSelector:
-                        **__application_selector
+                    **__application_selector
                     **data.selector
                 }
             }
@@ -79,9 +77,6 @@ schema ServerBackend[inputData]:
                         *_sidecarContainers
                     ]
                     initContainers: _initContainers
-                    serviceAccount: data.serviceAccountName
-                    dnsConfig: data.dnsConfig
-                    dnsPolicy: data.dnsPolicy
                     volumes: [
                         {
                             name: _volume.name

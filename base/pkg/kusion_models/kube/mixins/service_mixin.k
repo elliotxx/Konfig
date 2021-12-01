@@ -5,7 +5,6 @@ import base.pkg.kusion_models.kube.utils
 schema relaxed ServiceMixin:
     if data.services:
         assert "workloadType" in data, "data must contain `workloadType` attribute"
-        assert "autoSelector" in data, "data must contain `autoSelector` attribute"
 
         __workloadSelector = _kubernetes?[data.workloadType]?[0]?.spec?.selector?.matchLabels
 
@@ -25,10 +24,7 @@ schema relaxed ServiceMixin:
                 loadBalancerSourceRanges: _s?.loadBalancerSourceRanges
                 ports: _s?.ports
                 publishNotReadyAddresses: _s?.publishNotReadyAddresses
-                if data.autoSelector:
-                    selector: __workloadSelector
-                else:
-                    selector: _s?.selector
+                selector: _s?.selector
                 sessionAffinity: _s?.sessionAffinity
                 sessionAffinityConfig: _s?.sessionAffinityConfig if _s?.sessionAffinity == "ClientIP" else Undefined
                 type: _s?.type

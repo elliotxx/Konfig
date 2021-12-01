@@ -58,7 +58,6 @@ spec:
             - mountPath: /mnt/log
               name: log-storage
               readOnly: true
-      dnsPolicy: ClusterFirst
       volumes:
         - emptyDir: {}
           name: log-storage

@@ -90,7 +90,6 @@ schema Service(common.Metadata):
     userIdentity?: str
     autoLabel?: bool = False
     selector?: {str:str}
-    autoSelector?: bool = True
     ports?: [corev1.ServicePort]
     clusterIP?: str
     type?: str
