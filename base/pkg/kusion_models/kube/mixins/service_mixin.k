@@ -24,7 +24,7 @@ schema relaxed ServiceMixin:
                 loadBalancerSourceRanges: _s?.loadBalancerSourceRanges
                 ports: _s?.ports
                 publishNotReadyAddresses: _s?.publishNotReadyAddresses
-                selector: _s?.selector
+                selector: _s?.selector or __workloadSelector
                 sessionAffinity: _s?.sessionAffinity
                 sessionAffinityConfig: _s?.sessionAffinityConfig if _s?.sessionAffinity == "ClientIP" else Undefined
                 type: _s?.type
