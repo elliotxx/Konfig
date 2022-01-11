@@ -1,0 +1,60 @@
+on: [push]
+
+jobs: 
+  diff:
+    runs-on: ubuntu-latest
+    name: project structure check
+    steps:
+      - uses: actions/checkout@v2
+      - id: diff
+        uses: technote-space/get-diff-action@v6
+  # TODO: publish a github action: kusion/kusion@v0.1 ?
+  check:
+    runs-on: ubuntu-latest
+    container: 
+      image: kusion/kusion:v0.3.6-e5ab4036
+      env: 
+        CHANGED_FILE_URL: ${{jobs.diff.steps.diff.outputs.diff}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: structure-check
+        run: |
+          # export CHANGED_FILE_URL= "${{jobs.diff.steps.diff.output}}"
+          kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html || exit 0
+      - id: upload-structure-check-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: structure-check-report
+          path: |
+            hack/report/TEST-structure.xml
+            hack/report/structure.html
+      - id: base-test
+        run: |
+          # export CHANGED_FILE_URL= "${{jobs.diff.steps.diff.output}}"
+          export KCL_TEST_MODE="base"
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-base.xml --html=./hack/report/base.html || exit 0
+      - id: upload-base-test-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: base-test-report
+          path: |
+            hack/report/TEST-base.xml
+            hack/report/base.html
+      - id: biz-test
+        run: |
+          # export CHANGED_FILE_URL= "${{jobs.diff.steps.diff.output}}"
+          export KCL_TEST_MODE="biz"
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-biz.xml --html=./hack/report/biz.html || exit 0
+      - id: upload-biz-test-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: biz-test-report
+          path: |
+            hack/report/TEST-biz.xml
+            hack/report/biz.html
+      - id: provider-diff
+        run: kclvm hack/diff.py
+      - id: provider-apply
+        run: kclvm hack/release.py
+        
+        
