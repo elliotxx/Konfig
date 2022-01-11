@@ -18,7 +18,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao/kusion:v0.3.6-e5ab4036
+      image: yuanhao1223/kusion:v0.3.6-e5ab4036
       env: 
         CHANGED_FILE_URL: ${{needs.diff.outputs.CHANGED_FILE_URL}}
     steps:
