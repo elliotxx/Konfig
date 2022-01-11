@@ -1,4 +1,7 @@
-on: [push]
+on: 
+  push:
+    path: 
+      - '**.k'
 
 jobs: 
   diff:
@@ -15,7 +18,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: reg.docker.alibaba-inc.com/kusion/kusion:v0.3.6-e5ab4036
+      image: yuanhao/kusion:v0.3.6-e5ab4036
       env: 
         CHANGED_FILE_URL: ${{needs.diff.outputs.CHANGED_FILE_URL}}
     steps:
