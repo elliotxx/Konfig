@@ -32,7 +32,7 @@ schema Main:
     readinessProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to check whether container is ready or not.
-        The default value can be referred to presupposed template: sigma/base/pkg/kusion_models/templates/sofa_probe.k
+        The default value can be referred to presupposed template: base/pkg/kusion_models/templates/sofa_probe.k
     startupProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to indicates that the Pod has successfully initialized.

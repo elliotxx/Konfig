@@ -1,0 +1,4 @@
+# 评审人, 必须为合法的 antcode 可登陆账号
+reviewers: ["zibo.hzb", "guiming.sgm", "wangqinyu.wqy", "yingming.yym"]
+# 阈值，至少有 1 人通过
+threshold: 1
