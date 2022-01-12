@@ -132,7 +132,8 @@ def filter_project_dir() -> List[Path]:
     :return: the filtered dirs
     """
     all_project_dirs = get_konfig_projects_relative()
-    change_paths_url = os.getenv("CHANGED_FILE_URL")
+    # use string output directly
+    change_file = os.getenv("CHANGED_FILE")
     ignore_paths_str = os.getenv("IGNORE_PATHS")
     mode_filter = os.getenv("KCL_TEST_MODE")
 
@@ -140,7 +141,8 @@ def filter_project_dir() -> List[Path]:
         # when KCL_TEST_MODE is 'base', all test cases under Konfig/sigma will be tested
         change_paths = all_project_dirs
     else:
-        change_paths_str = get_changed_files_from_oss(change_paths_url)
+        # change_paths_str = get_changed_files_from_oss(change_paths_url)
+        change_paths_str = change_file
         print(f'Change Path: {change_paths_str}')
         if change_paths_str == EMPTY_CHANGE_LIST or not change_paths_str:
             return []

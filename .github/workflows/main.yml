@@ -1,33 +1,29 @@
-on: 
-  push:
-    path: 
-      - '**.k'
+on: [push, pull_request]
 
 jobs: 
   diff:
     runs-on: ubuntu-latest
-    name: project structure check
+    name: git diff
     steps:
       - uses: actions/checkout@v2
       - id: diff
         uses: technote-space/get-diff-action@v6
     outputs:
-      CHANGED_FILE_URL: ${{ steps.diff.outputs.diff }}
-  # TODO: publish a github action: kusion/kusion@v0.1 ?
-  check:
+      CHANGED_FILE: ${{ steps.diff.outputs.diff }}
+  structure-check:
     needs: diff
     runs-on: ubuntu-latest
     container: 
       image: yuanhao1223/kusion:v0.3.6-e5ab4036
       env: 
-        CHANGED_FILE_URL: ${{needs.diff.outputs.CHANGED_FILE_URL}}
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
-      - id: pytest-html
+      - id: install-pytest-html
         run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: structure-check
         run: |
-          kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html || exit 0
+          kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
       - id: upload-structure-check-report
         uses: actions/upload-artifact@v2
         with:
@@ -35,10 +31,21 @@ jobs:
           path: |
             hack/report/TEST-structure.xml
             hack/report/structure.html
+  base-test:
+    needs: diff
+    runs-on: ubuntu-latest
+    container: 
+      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: base-test
         run: |
           export KCL_TEST_MODE="base"
-          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-base.xml --html=./hack/report/base.html || exit 0
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-base.xml --html=./hack/report/base.html
       - id: upload-base-test-report
         uses: actions/upload-artifact@v2
         with:
@@ -46,10 +53,21 @@ jobs:
           path: |
             hack/report/TEST-base.xml
             hack/report/base.html
+  biz-test:
+    needs: diff
+    runs-on: ubuntu-latest
+    container: 
+      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: biz-test
         run: |
           export KCL_TEST_MODE="biz"
-          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-biz.xml --html=./hack/report/biz.html || exit 0
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-biz.xml --html=./hack/report/biz.html
       - id: upload-biz-test-report
         uses: actions/upload-artifact@v2
         with:
@@ -57,9 +75,30 @@ jobs:
           path: |
             hack/report/TEST-biz.xml
             hack/report/biz.html
-      - id: provider-diff
-        run: kclvm hack/diff.py
-      - id: provider-apply
-        run: kclvm hack/release.py
-        
-        
+  # TODO: rewrite python scripts to adapt opensource konfig repo
+  # provider-diff:
+  #   needs: [check, base-test, biz-test]
+  #   runs-on: ubuntu-latest
+  #   container: 
+  #     image: yuanhao1223/kusion:v0.3.6-e5ab4036
+  #     env: 
+  #       CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+  #   steps:
+  #     - id: provider-diff
+  #       run: |
+  #         export changeApps = ${{jobs.addtag.outputs.changedApps}}
+  #         export changePathsUrl = ${{jobs.diff.outputs.changePathsUrl}}
+  #         kclvm ./hack/diff.py
+  # provider-apply:
+  #   needs: provider-diff
+  #   runs-on: ubuntu-latest
+  #   container: 
+  #     image: yuanhao1223/kusion:v0.3.6-e5ab4036
+  #     env: 
+  #       CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+  #   steps:
+  #     - id: provider-apply
+  #       run: |
+  #         export changeApps = ${{jobs.addtag.outputs.changedApps}}
+  #         export changePathsUrl = ${{jobs.diff.outputs.changePathsUrl}}
+  #         kclvm ./hack/release.py
