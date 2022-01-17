@@ -7,9 +7,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: diff
-        uses: technote-space/get-diff-action@v6
-    outputs:
-      CHANGED_FILE: ${{ steps.diff.outputs.diff }}
+        name: git diff
+        run: |
+          changed_files="empty_list"
+          if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+            changed_files=$(git diff --name-only ${GITHUB_HEAD_REF} ${GITHUB_BASE_REF})
+          else
+            changed_files=$(git diff --name-only ${GITHUB_SHA})
+          fi
+          echo $changed_files
+          echo "::set-output name=CHANGED_FILE::$changed_files"
   structure-check:
     needs: diff
     runs-on: ubuntu-latest
@@ -23,6 +30,7 @@ jobs:
         run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: structure-check
         run: |
+          echo $CHANGED_FILE
           kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
       - id: upload-structure-check-report
         uses: actions/upload-artifact@v2
