@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-echodev
+  namespace: http-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/env: dev
+      app.kubernetes.io/instance: http-echo-dev
+      app.kubernetes.io/name: http-echo
+      cluster.x-k8s.io/cluster-name: default
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/env: dev
+        app.kubernetes.io/instance: http-echo-dev
+        app.kubernetes.io/name: http-echo
+        cluster.x-k8s.io/cluster-name: default
+    spec:
+      containers:
+        - args:
+            - -text=apple
+          env:
+            - name: APP_NAME
+              value: http-echo
+            - name: ENVIRONMENT
+              value: dev
+            - name: INSTANCE
+              value: http-echo-dev
+            - name: CLUSTER
+              value: default
+          image: hashicorp/http-echo
+          name: apple-app
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: http-echo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apple-service
+  namespace: http-echo
+spec:
+  ports:
+    - port: 5678
+  selector:
+    app.kubernetes.io/env: dev
+    app.kubernetes.io/instance: http-echo-dev
+    app.kubernetes.io/name: http-echo
+    cluster.x-k8s.io/cluster-name: default
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: http-echo
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: app-service
+                port:
+                  number: 5678
+            path: /apple
+            pathType: Prefix

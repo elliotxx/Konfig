@@ -12,6 +12,7 @@ schema ServerBackend[inputData]:
         mixins.ConfigMapMixin,
         mixins.SecretMixin,
         mixins.ServiceMixin,
+        mixins.IngressMixin,
 
         # Workload builder mixin
         mixins.VolumeMixin,

@@ -39,26 +39,22 @@ schema Ingress(common.Metadata):
     rules: [networking_v1beta1.IngressRule]
         A list of host rules used to configure the Ingress. If unspecified, or no rule matches, all traffic is sent to the default backend.
 
-    User Interface Example
+    User Interface Examples
     ----------------------
-    ingress = Ingress {
-        name: "my-ingress-name"
-        namespace: "my-ingress-name"
-        labels: {
-            env: "dev"
-        }
-        annotations: {
-            ingress.k8s.alipay.com/message: ""
-        }
-        "rules": [
+    ingress.Ingress {
+        name: "example-ingress"
+        rules: [
             {
-                "host": "cloudmesh-openapi.alipay.com"
-                "http": {
-                    "paths": [
+                http: {
+                    paths: [
                         {
-                            "backend": {
-                                "serviceName": "openapi-prod"
-                                "servicePort": 80
+                            path: "/apple"
+                            pathType: "Prefix"
+                            backend: {
+                                service: {
+                                    name: "app-service"
+                                    port: { number: 5678 }
+                                }
                             }
                         }
                     ]

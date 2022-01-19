@@ -45,3 +45,4 @@ schema Server:
     configMaps?: [configmap.ConfigMap]
     secrets?: [secret.Secret]
     services?: [service.Service]
+    ingresses?: [ingress.Ingress]
