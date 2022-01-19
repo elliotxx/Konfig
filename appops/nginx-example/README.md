@@ -7,26 +7,24 @@ $ cd dev
 $ kusion apply
 SUCCESS  Compiling in stack dev...
 
-Stack: dev    Provider                          Type             Name    Plan
-      * ├─  kubernetes                  v1:Namespace        http-echo  Create
-      * ├─  kubernetes            apps/v1:Deployment     http-echodev  Create
-      * ├─  kubernetes                    v1:Service    apple-service  Create
-      * └─  kubernetes  networking.k8s.io/v1:Ingress  example-ingress  Create
+Stack: dev    Provider                Type              Name    Plan
+      * ├─  kubernetes        v1:Namespace     nginx-example  Create
+      * ├─  kubernetes          v1:Service     nginx-example  Create
+      * └─  kubernetes  apps/v1:Deployment  nginx-exampledev  Create
 
 ✔ yes
 Start applying diffs......
-SUCCESS  Creating Namespace/http-echo
-SUCCESS  Creating Deployment/http-echodev
-SUCCESS  Creating Service/apple-service
-SUCCESS  Creating Ingress/example-ingress
+SUCCESS  Creating Namespace/nginx-example
+SUCCESS  Creating Service/nginx-example
+SUCCESS  Creating Deployment/nginx-exampledev
 
-Creating Ingress/example-ingress [4/4] ████████████████████████████████ 100% | 0s
+Creating Deployment/nginx-exampledev [3/3] ████████████████████████████████ 100% | 0s
 
-$ minikube service apple-service -n http-echo --url
-http://192.168.99.102:30206
+$ minikube service nginx-example -n nginx-example --url
+http://192.168.99.102:30201
 
-$ curl http://192.168.99.102:30206/apple                         
-apple
+$ curl -s http://192.168.99.102:30201 | grep '<title>'   # Or visit http://192.168.99.102:30201 in browser
+<title>Welcome to nginx!</title>
 
 $ kusion destroy
 ```
