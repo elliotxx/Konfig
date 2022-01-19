@@ -13,7 +13,7 @@ appConfiguration = frontend.Server {
                 value = "dns"
             }
         ]
-        ports = [ { containerPort = 80 } ]
+        ports = [{containerPort = 80}]
     }
     selector = {
         "tier" = "frontend"

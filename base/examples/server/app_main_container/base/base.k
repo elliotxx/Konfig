@@ -5,8 +5,6 @@ import base.pkg.kusion_models.kube.frontend.volume as v
 
 # Application Configuration
 appConfiguration = frontend.Server {
-    schedulingStrategy: {
-        resource = res_tpl.tiny
-    }
-    image: "gcr.io/google-samples/gb-frontend:v4"
+    schedulingStrategy.resource = res_tpl.tiny
+    image = "gcr.io/google-samples/gb-frontend:v4"
 }

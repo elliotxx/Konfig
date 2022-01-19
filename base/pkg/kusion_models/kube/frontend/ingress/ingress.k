@@ -39,8 +39,8 @@ schema Ingress(common.Metadata):
     rules: [networking_v1beta1.IngressRule]
         A list of host rules used to configure the Ingress. If unspecified, or no rule matches, all traffic is sent to the default backend.
 
-    User Interface Examples
-    ----------------------
+    Examples
+    --------
     ingress.Ingress {
         name: "example-ingress"
         rules: [
