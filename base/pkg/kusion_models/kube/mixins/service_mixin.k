@@ -9,8 +9,7 @@ schema relaxed ServiceMixin:
         __workloadSelector = _kubernetes?[data.workloadType]?[0]?.spec?.selector?.matchLabels
 
         __kubeServices = [ v1.Service {
-            metadata: {
-                **utils.MetadataBuilder(_s).result
+            metadata: utils.MetadataBuilder(_s) | {
                 name = _s?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
             }
             spec: {

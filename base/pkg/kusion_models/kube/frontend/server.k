@@ -12,7 +12,7 @@ import base.pkg.kusion_models.kube.frontend.strategy
 import base.pkg.kusion_models.kube.metadata
 
 schema Server:
-    __settings__:{str:str} = {"output_type" = "IGNORE"}
+    __settings__: {str:str} = {"output_type" = "IGNORE"}
 
     # Application workload type, default to 'Deployment'
     workloadType: "Deployment" | "StatefulSet" = "Deployment"
@@ -23,7 +23,7 @@ schema Server:
     # Main container image
     image: str = option("image")
     # Main container resource
-    schedulingStrategy: strategy.SchedulingStrategy = strategy.SchedulingStrategy{}
+    schedulingStrategy: strategy.SchedulingStrategy = strategy.SchedulingStrategy {}
 
     # Main container configuration
     mainContainer: container.Main

@@ -5,7 +5,7 @@ import base.pkg.kusion_models.kube.mixins
 import base.pkg.kusion_models.kube.metadata
 import base.pkg.kusion_models.kube.utils
 
-schema ServerBackend[inputData]:
+schema ServerBackend[inputData: server.Server]:
     mixin [
         # Resource builder mixin
         mixins.NamespaceMixin,
@@ -37,53 +37,50 @@ schema ServerBackend[inputData]:
         assert data.image, "data.image must be specified and can't be empty or None or Undefined"
         # Construct input of converter
         _mainContainerDict = {
-            **{k:v for k,v in data.mainContainer}
+            **data.mainContainer
             env += __application_envs
             name = data.mainContainer.name or "main"
             image = data.image
             resource = data?.schedulingStrategy?.resource
         }
-        _mainContainer = utils.ContainerFrontend2Kube(_mainContainerDict).result
+        _mainContainer = utils.ContainerFrontend2Kube(_mainContainerDict)
 
     if data.sidecarContainers:
-        _sidecarContainers = [utils.ContainerFrontend2Kube(_s).result for _s in data.sidecarContainers]
+        _sidecarContainers = [utils.ContainerFrontend2Kube(_s) for _s in data.sidecarContainers]
 
     if data.initContainers:
-        _initContainers = [utils.ContainerFrontend2Kube(_s).result for _s in data.initContainers]
+        _initContainers = [utils.ContainerFrontend2Kube(_s) for _s in data.initContainers]
 
     # Construct workload attributes
     _workload_attributes: {str:} = {
-        metadata: {
-            **utils.MetadataBuilder(data).result
+        metadata = utils.MetadataBuilder(data) | {
             name = _workload_name
         }
-        spec: {
-            replicas: data.replicas
-            selector: {
-                matchLabels: {
-                    **__application_selector
-                    **data.selector
-                }
+        spec = {
+            replicas = data.replicas
+            selector.matchLabels: {
+                **__application_selector
+                **data.selector
             }
-            template: {
-                metadata: {
-                    labels: {
+            template = {
+                metadata = {
+                    labels = {
                         **__application_labels
                     }
                     **data.podMetadata
                 }
-                spec: {
-                    containers: [
+                spec = {
+                    containers = [
                         _mainContainer
                         *_sidecarContainers
                     ]
-                    initContainers: _initContainers
-                    volumes: [
+                    initContainers = _initContainers
+                    if data.volumes: volumes = [
                         {
-                            name: _volume.name
-                            "${_volume.volumeSource._type}": {} if _volume.volumeSource._type == "emptyDir" and _volume.volumeSource.medium == "" else _volume.volumeSource
+                            name = _volume.name
+                            "${_volume.volumeSource._type}" = {} if _volume.volumeSource._type == "emptyDir" and _volume.volumeSource.medium == "" else _volume.volumeSource
                         } for _volume in data.volumes if _volume.volumeSource
-                    ] if data.volumes else Undefined
+                    ]
                 }
             }
         }
@@ -95,23 +92,21 @@ schema ServerBackend[inputData]:
     elif data.workloadType == "StatefulSet":
         # Generate default headless service of StatefulSet
         _headlessServiceInstance = corev1.Service {
-            metadata: _workload_attributes.metadata
-            spec: {
-                clusterIP: "None"
-                selector: _workload_attributes.spec.selector.matchLabels
+            metadata = _workload_attributes.metadata
+            spec = {
+                clusterIP = "None"
+                selector = _workload_attributes.spec.selector.matchLabels
             }
         }
         _workloadInstance = appsv1.StatefulSet {
             **_workload_attributes
-            spec: {
-                serviceName: _headlessServiceInstance.metadata.name
-            }
+            spec.serviceName = _headlessServiceInstance.metadata.name
         }
 
     # Put workload instance to backend result
     _kubernetes: {str:[any]} = {
         if _workloadInstance:
-            "${typeof(_workloadInstance)}": [_workloadInstance]
+            "${typeof(_workloadInstance)}" = [_workloadInstance]
         if _headlessServiceInstance:
-            "${typeof(_headlessServiceInstance)}": [_headlessServiceInstance]
+            "${typeof(_headlessServiceInstance)}" = [_headlessServiceInstance]
     }

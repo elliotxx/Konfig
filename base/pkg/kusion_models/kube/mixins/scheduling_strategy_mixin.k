@@ -13,12 +13,11 @@ schema relaxed SchedulingStrategyMixin:
     Examples
     --------
     app: {
-        schedulingStrategy: SchedulingStrategy{
-            resource: "1<cpu<2,1Gi<memory<2Gi,disk=20Gi"
+        schedulingStrategy: SchedulingStrategy {
+            resource = "1<cpu<2,1Gi<memory<2Gi,disk=20Gi"
         }
     }
     """
 
-    if data.schedulingStrategy:
-        if data.schedulingStrategy.resource:
-            __kubeResourceRequirements = utils.Str2ResourceRequirements(data.schedulingStrategy.resource).result
+    if data?.schedulingStrategy?.resource:
+        __kubeResourceRequirements = utils.Str2ResourceRequirements(data.schedulingStrategy.resource).result

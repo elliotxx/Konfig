@@ -1,15 +1,15 @@
 import base.pkg.kusion_kubernetes.api.core.v1 as kubev1
 
-schema ContainerFrontend2Kube[c]:
+ContainerFrontend2Kube = lambda c -> {str:} {
     # Kube variable
-    _kubeResource?: {str:}
-    _kubeEnvList?: [{str:}]
-    _kubeEnvFromList?: [{str:}]
-    _kubePortList?: [{str:}]
-    _kubeReadinessProbe?: {str:}
-    _kubeLivenessProbe?: {str:}
-    _kubeStartupProbe?: {str:}
-    _kubeLifecycle?: {str:}
+    _kubeResource = Undefined
+    _kubeEnvList = Undefined
+    _kubeEnvFromList = Undefined
+    _kubePortList = Undefined
+    _kubeReadinessProbe = Undefined
+    _kubeLivenessProbe = Undefined
+    _kubeStartupProbe = Undefined
+    _kubeLifecycle = Undefined
 
     # Convert frontend resource to kube resource
     if c?.resource:
@@ -119,7 +119,7 @@ schema ContainerFrontend2Kube[c]:
         }
 
     # Construct result
-    result: {str:} = {
+    result = {
         name: c?.name
         image: c?.image
         imagePullPolicy: c?.imagePullPolicy if "imagePullPolicy" in c else Undefined
@@ -138,3 +138,4 @@ schema ContainerFrontend2Kube[c]:
         terminationMessagePath: c?.terminationMessagePath if "terminationMessagePath" in c else Undefined
         terminationMessagePolicy: c?.terminationMessagePolicy if "terminationMessagePolicy" in c else Undefined
     }
+}
