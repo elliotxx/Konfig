@@ -94,7 +94,7 @@ jobs:
         uses: elliotxx/kusion-action@main
         with:
           subcommand: 'apply'
-          workDir: '$GITHUB_WORKSPACE/appops/nginx-example/dev'
+          workDir: '${{ GITHUB_WORKSPACE }}/appops/nginx-example/dev'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
   #   needs: [check, base-test, biz-test]
