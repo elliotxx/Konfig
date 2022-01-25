@@ -1,39 +1,37 @@
 import regex
 
-schema Str2ResourceRequirements[resourceStr]:
-    __scheduling_resource_items = resourceStr.split(",")
+schema relaxed Str2ResourceRequirements[resourceStr: str]:
+    schedulingResourceItems = resourceStr.split(",")
 
-    __kubeResourceRequirements = [{
-        "cpu": {
-            "requests":  (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[0])?.strip()
-            "limits": (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[-1])?.strip()
+    resource = [{
+        cpu = {
+            requests = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[0])?.strip()
+            limits = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[-1])?.strip()
         }
-    } if "cpu" in _item else ({
-        "memory": {
-            "requests": (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[0])?.strip()
-            "limits": (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[-1])?.strip()
+    } if "cpu" in item else ({
+        memory = {
+            requests = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[0])?.strip()
+            limits = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[-1])?.strip()
         }
-    } if "memory" in _item else ({
-        "disk": {
-            "requests": (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[0])?.strip()
-            "limits": (_item.split("=")?[1] if len(_item.split("=")) > 1 else _item.split("<")?[-1])?.strip()
+    } if "memory" in item else ({
+        disk = {
+            requests = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[0])?.strip()
+            limits = (item.split("=")?[1] if len(item.split("=")) > 1 else item.split("<")?[-1])?.strip()
         }
-    } if "disk" in _item else Undefined)) for _item in __scheduling_resource_items]
+    } if "disk" in item else Undefined)) for item in schedulingResourceItems]
 
-    __kubeResourceRequirements = {
-        "requests": {
-            "cpu": __kubeResourceRequirements?[0]?.cpu?.requests or __kubeResourceRequirements?[1]?.cpu?.requests or __kubeResourceRequirements?[2]?.cpu?.requests
-            "memory": __kubeResourceRequirements?[0]?.memory?.requests or __kubeResourceRequirements?[1]?.memory?.requests or __kubeResourceRequirements?[2]?.memory?.requests
-            "ephemeral-storage": __kubeResourceRequirements?[0]?.disk?.requests or __kubeResourceRequirements?[1]?.disk?.requests or __kubeResourceRequirements?[2]?.disk?.requests
+    result = {
+        requests = {
+            cpu = resource?[0]?.cpu?.requests or resource?[1]?.cpu?.requests or resource?[2]?.cpu?.requests
+            memory = resource?[0]?.memory?.requests or resource?[1]?.memory?.requests or resource?[2]?.memory?.requests
+            "ephemeral-storage" = resource?[0]?.disk?.requests or resource?[1]?.disk?.requests or resource?[2]?.disk?.requests
         }
-        "limits": {
-            "cpu": __kubeResourceRequirements?[0]?.cpu?.limits or __kubeResourceRequirements?[1]?.cpu?.limits or __kubeResourceRequirements?[2]?.cpu?.limits
-            "memory": __kubeResourceRequirements?[0]?.memory?.limits or __kubeResourceRequirements?[1]?.memory?.limits or __kubeResourceRequirements?[2]?.memory?.limits
-            "ephemeral-storage": __kubeResourceRequirements?[0]?.disk?.limits or __kubeResourceRequirements?[1]?.disk?.limits or __kubeResourceRequirements?[2]?.disk?.limits
+        limits = {
+            cpu = resource?[0]?.cpu?.limits or resource?[1]?.cpu?.limits or resource?[2]?.cpu?.limits
+            memory = resource?[0]?.memory?.limits or resource?[1]?.memory?.limits or resource?[2]?.memory?.limits
+            "ephemeral-storage" = resource?[0]?.disk?.limits or resource?[1]?.disk?.limits or resource?[2]?.disk?.limits
         }
     }
-
-    result: {str:} = __kubeResourceRequirements
 
     check:
         regex.match(result?.requests?.cpu, r"^([+-]?[0-9.]+)([m]*[-+]?[0-9]*)$") if result?.requests?.cpu, "cpu must match specific regular expression"

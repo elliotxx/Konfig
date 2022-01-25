@@ -53,6 +53,7 @@ metadata:
   namespace: sampleapp
 spec:
   ports:
+<<<<<<< HEAD
   - port: 80
   selector:
     app.kubernetes.io/name: sampleapp
@@ -60,3 +61,12 @@ spec:
     app.kubernetes.io/instance: sampleapp-prod
     cluster.x-k8s.io/cluster-name: demo-cluster-name
   type: NodePort
+=======
+    - port: 80
+  selector:
+    app.kubernetes.io/env: prod
+    app.kubernetes.io/instance: sampleapp-prod
+    app.kubernetes.io/name: sampleapp
+    cluster.x-k8s.io/cluster-name: demo-cluster-name
+  type: NodePort
+>>>>>>> b8114dd713b21dc5da707d86e5783bc46196b922
