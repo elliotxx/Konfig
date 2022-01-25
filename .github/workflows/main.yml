@@ -20,7 +20,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -41,7 +41,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -63,7 +63,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -85,16 +85,22 @@ jobs:
     needs: [diff, structure-check, base-test, biz-test]
     runs-on: ubuntu-latest
     container: 
-      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
       - id: kusion-apply
         uses: elliotxx/kusion-action@main
+        env:
+          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
+          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
         with:
           subcommand: 'apply'
-          workDir: './appops/nginx-example/dev'
+          workDir: './base/examples/provider/provider_oss/oss'
+          yes: 'true'
+          # detail: 'true'
+          # noStyle: 'false'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
   #   needs: [check, base-test, biz-test]

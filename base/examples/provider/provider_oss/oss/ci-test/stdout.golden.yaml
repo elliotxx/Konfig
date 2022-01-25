@@ -1,10 +1,10 @@
 instances:
   - attributes:
       acl: private
-      bucket: kusion-test-bucket
+      bucket: kusion-bucket-acl6
     status: managed
 mode: managed
-name: bucket1
+name: bucket-acl
 provider:
   host: registry.terraform.io
   name: alicloud
