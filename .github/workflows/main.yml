@@ -20,7 +20,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -41,7 +41,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -58,12 +58,12 @@ jobs:
           name: base-test-report
           path: |
             hack/report/TEST-base.xml
-            hack/report/base.html
+            hack/report/base.html  biz-test:
   biz-test:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -81,6 +81,20 @@ jobs:
           path: |
             hack/report/TEST-biz.xml
             hack/report/biz.html
+  apply:
+    needs: [diff, structure-check, base-test, biz-test]
+    runs-on: ubuntu-latest
+    container: 
+      image: elliotxx/kusion-open:v0.3.11-7c53e1a1
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: kusion apply
+        uses: elliotxx/kusion-action@main
+        with:
+          subcommand: 'apply'
+          workDir: '$GITHUB_WORKSPACE/appops/nginx-example/dev'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
   #   needs: [check, base-test, biz-test]
