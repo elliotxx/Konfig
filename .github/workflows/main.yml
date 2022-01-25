@@ -90,7 +90,7 @@ jobs:
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
-      - id: kusion apply
+      - id: kusion-apply
         uses: elliotxx/kusion-action@main
         with:
           subcommand: 'apply'
