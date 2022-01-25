@@ -90,12 +90,11 @@ jobs:
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
-        with:
-          path: './appops/nginx-example/dev'
       - id: kusion-apply
         uses: elliotxx/kusion-action@main
         with:
           subcommand: 'apply'
+          workDir: './appops/nginx-example/dev'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
   #   needs: [check, base-test, biz-test]
