@@ -11,21 +11,3 @@ provider:
   namespace: aliyun
   version: 1.153.0
 type: alicloud_oss_bucket
----
-instances:
-  - attributes:
-      acl: public-read
-      bucket: kusion-bucket-acl
-      content: This is a kusion testdata content
-      key: kusion-testdata.txt
-    dependsOn:
-      - registry.terraform.io/aliyun/alicloud.alicloud_oss_bucket.bucket-acl[0]
-    status: managed
-mode: managed
-name: object-content
-provider:
-  host: registry.terraform.io
-  name: alicloud
-  namespace: aliyun
-  version: 1.153.0
-type: alicloud_oss_bucket_object
