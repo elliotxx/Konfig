@@ -33,7 +33,7 @@ spec:
               value: guestbook-frontend-prod
             - name: CLUSTER
               value: demo-cluster-name
-          image: gcr.io/google-samples/gb-frontend:v3
+          image: gcr.io/google-samples/gb-frontend:v5
           name: php-redis
           ports:
             - containerPort: 80
