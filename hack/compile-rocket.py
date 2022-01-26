@@ -241,7 +241,7 @@ def validate_expected():
 
 if __name__ == '__main__':
     # 前置任务：检查当前 kusion 版本是否符合大库预期
-    validate_expected()
+    # validate_expected()
     # 没有传入任何应用目录
     if len(sys.argv)==1:
         logging.warning('please give the project paths')
