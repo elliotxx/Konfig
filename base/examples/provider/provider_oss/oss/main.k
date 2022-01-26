@@ -23,21 +23,21 @@ _bucket_acl = {
 # }
 
 # 以下内容可以直接copy
-# result = commons.ProviderResourceBuilder {
-#     name: "bucket-acl"
-#     type: "alicloud_oss_bucket"
-#     provider: {
-#         host: "registry.terraform.io"
-#         namespace: "aliyun"
-#         name: "alicloud"
-#         version: "1.153.0"
-#     }
-#     instances: [
-#         commons.Instance {
-#             data: _bucket_acl 
-#         }
-#     ]
-# }.result
+result = commons.ProviderResourceBuilder {
+    name: "bucket-acl"
+    type: "alicloud_oss_bucket"
+    provider: {
+        host: "registry.terraform.io"
+        namespace: "aliyun"
+        name: "alicloud"
+        version: "1.153.0"
+    }
+    instances: [
+        commons.Instance {
+            data: _bucket_acl 
+        }
+    ]
+}.result
 
 # result2 = commons.ProviderResourceBuilder {
 #     name: "object-content"

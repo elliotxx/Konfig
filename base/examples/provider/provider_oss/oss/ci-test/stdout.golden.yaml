@@ -1,0 +1,13 @@
+instances:
+  - attributes:
+      acl: public-read
+      bucket: kusion-bucket-acl
+    status: managed
+mode: managed
+name: bucket-acl
+provider:
+  host: registry.terraform.io
+  name: alicloud
+  namespace: aliyun
+  version: 1.153.0
+type: alicloud_oss_bucket
