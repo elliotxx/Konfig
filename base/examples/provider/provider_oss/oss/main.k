@@ -1,7 +1,7 @@
 import base.pkg.kusion_models.commons
 
 _bucket_acl = {
-    bucket = "kusion-bucket-acl"
+    bucket = "kusion-bucket-acl-2"
     acl    = "public-read"
 }
 

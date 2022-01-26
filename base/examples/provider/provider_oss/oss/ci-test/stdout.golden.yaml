@@ -1,7 +1,7 @@
 instances:
   - attributes:
       acl: public-read
-      bucket: kusion-bucket-acl
+      bucket: kusion-bucket-acl-2
     status: managed
 mode: managed
 name: bucket-acl
