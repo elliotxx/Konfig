@@ -102,7 +102,7 @@ jobs:
           subcommand: 'apply'
           workDir: './base/examples/provider/provider_oss/oss'
           yes: 'true'
-          # detail: 'true'
+          detail: 'true'
           # noStyle: 'false'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
