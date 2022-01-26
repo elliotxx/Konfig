@@ -84,6 +84,7 @@ jobs:
             hack/report/TEST-biz.xml
             hack/report/biz.html
   apply:
+    if: github.ref == 'refs/heads/main'
     needs: [diff, structure-check, base-test, biz-test]
     runs-on: ubuntu-latest
     container: 
