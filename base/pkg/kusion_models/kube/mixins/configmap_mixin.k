@@ -5,8 +5,7 @@ import base.pkg.kusion_models.kube.utils
 schema relaxed ConfigMapMixin:
     if data.configMaps:
         __kubeConfigMaps = [ v1.ConfigMap {
-            metadata: {
-                **utils.MetadataBuilder(_c).result
+            metadata: utils.MetadataBuilder(_c) | {
                 name = _c?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
             }
             data: _c?.data

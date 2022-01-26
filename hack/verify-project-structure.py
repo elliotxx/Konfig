@@ -25,10 +25,6 @@ def test_project_structure(project_dir: str):
     print(project_dir)
     project_dir = Path(project_dir)
 
-    # 校验 project 工程结构
-    assert (project_dir / OWNERS_FILE).is_file(), f"file structure error: file missing: {OWNERS_FILE}"
-    check_project_meta(project_dir)
-
     # 找到当前 project 下的所有 stack，并校验 stack 工程结构
     for stack_dir, _, _ in os.walk(project_dir):
         stack_dir = Path(stack_dir)

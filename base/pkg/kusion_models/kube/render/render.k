@@ -11,4 +11,7 @@ __renderBackendInstances__ = [
     *__renderServerBackendInstances__
 ]
 
-renderKubeKubernetes = [ _inst?.kubernetes | {"__settings__": {"output_type" = "STANDALONE"}} for _inst in __renderBackendInstances__]
+renderKubeKubernetes = [
+    _inst?.kubernetes | {__settings__: {output_type = "STANDALONE"}} \
+    for _inst in __renderBackendInstances__ if _inst?.kubernetes
+]

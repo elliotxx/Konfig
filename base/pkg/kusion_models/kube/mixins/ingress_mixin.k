@@ -5,8 +5,7 @@ import base.pkg.kusion_models.kube.utils
 schema relaxed IngressMixin:
     if data.ingresses:
         __kubeIngresses = [ networking_v1.Ingress {
-            metadata: {
-                **utils.MetadataBuilder(_s).result
+            metadata: utils.MetadataBuilder(_s) | {
                 name = _s?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
             }
             spec: {

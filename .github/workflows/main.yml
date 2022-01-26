@@ -16,7 +16,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -37,7 +37,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -59,7 +59,7 @@ jobs:
     needs: diff
     runs-on: ubuntu-latest
     container: 
-      image: yuanhao1223/kusion:v0.3.6-e5ab4036
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
       env: 
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
@@ -77,6 +77,26 @@ jobs:
           path: |
             hack/report/TEST-biz.xml
             hack/report/biz.html
+  apply:
+    needs: [diff, structure-check, base-test, biz-test]
+    runs-on: ubuntu-latest
+    container: 
+      image: elliotxx/kusion-open:v0.3.11-a78a91dd
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: kusion-apply
+        uses: elliotxx/kusion-action@main
+        env:
+          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
+          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
+        with:
+          subcommand: 'apply'
+          workDir: './base/examples/provider/provider_oss/oss'
+          yes: 'true'
+          # detail: 'true'
+          # noStyle: 'false'
   # TODO: rewrite python scripts to adapt opensource konfig repo
   # provider-diff:
   #   needs: [check, base-test, biz-test]

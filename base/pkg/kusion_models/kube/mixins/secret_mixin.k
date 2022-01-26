@@ -5,8 +5,7 @@ import base.pkg.kusion_models.kube.utils
 schema relaxed SecretMixin:
     if data.secrets:
         __kubeSecrets = [ v1.Secret {
-            metadata: {
-                **utils.MetadataBuilder(_s).result
+            metadata: utils.MetadataBuilder(_s) | {
                 name = _s?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
             }
             data: _s?.data
