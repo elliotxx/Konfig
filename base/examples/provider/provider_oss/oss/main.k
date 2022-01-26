@@ -5,12 +5,12 @@ _bucket_acl = {
     acl    = "public-read"
 }
 
-_bucket_object = {
-    bucket  = _bucket_acl.bucket
-    key     = "kusion-testdata.txt"
-    content = "This is a kusion testdata content"
-    acl     = "public-read"
-}
+# _bucket_object = {
+#     bucket  = _bucket_acl.bucket
+#     key     = "kusion-testdata.txt"
+#     content = "This is a kusion testdata content"
+#     acl     = "public-read"
+# }
 
 # _bucket_website = {
 #     bucket = "kusion-bucket-website"
@@ -39,24 +39,24 @@ result = commons.ProviderResourceBuilder {
     ]
 }.result
 
-result2 = commons.ProviderResourceBuilder {
-    name: "object-content"
-    type: "alicloud_oss_bucket_object"
-    provider: {
-        host: "registry.terraform.io"
-        namespace: "aliyun"
-        name: "alicloud"
-        version: "1.153.0"
-    }
-    instances: [
-        commons.Instance {
-            data: _bucket_object 
-            dependsOn: [
-                "registry.terraform.io/aliyun/alicloud.alicloud_oss_bucket.bucket-acl[0]"
-            ]
-        }
-    ]
-}.result
+# result2 = commons.ProviderResourceBuilder {
+#     name: "object-content"
+#     type: "alicloud_oss_bucket_object"
+#     provider: {
+#         host: "registry.terraform.io"
+#         namespace: "aliyun"
+#         name: "alicloud"
+#         version: "1.153.0"
+#     }
+#     instances: [
+#         commons.Instance {
+#             data: _bucket_object 
+#             dependsOn: [
+#                 "registry.terraform.io/aliyun/alicloud.alicloud_oss_bucket.bucket-acl[0]"
+#             ]
+#         }
+#     ]
+# }.result
 
 # result3 = commons.ProviderResourceBuilder {
 #     name: "bucket-website"
