@@ -54,7 +54,7 @@ jobs:
           name: base-test-report
           path: |
             hack/report/TEST-base.xml
-            hack/report/base.html  biz-test:
+            hack/report/base.html
   biz-test:
     needs: diff
     runs-on: ubuntu-latest
